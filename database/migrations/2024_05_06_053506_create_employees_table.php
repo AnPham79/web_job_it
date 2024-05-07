@@ -25,8 +25,8 @@ class CreateEmployeesTable extends Migration
             $table->text('bio')->nullable();
             $table->string('position')->nullable();
             $table->boolean('gender')->default(false);
-            $table->string('city');
-            $table->unsignedBigInteger('company_id');
+            $table->string('city')->nullable();
+            $table->unsignedBigInteger('company_id')->nullable();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->timestamps();
         });

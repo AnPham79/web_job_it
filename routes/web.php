@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\Employee;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +17,61 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('Layouts.master');
+})->name('welcome');
+
+// --------------------- view --------------------------------------------------------
+
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'handleLogin'])->name('handle-login');
+
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register', [AuthController::class, 'handleRegister'])->name('handle-register');
+
+// --------------------- Đăng kí bằng google ----------------------------------
+Route::get('/Auth/google', function () {
+    return Socialite::driver('google')->redirect();
+})->name('google-auth');
+ 
+Route::get('/Auth/google/callback', function () {
+    $user = Socialite::driver('google')->user();
+
+    session(['register_data' => [
+        'name' => $user->name,
+        'email' => $user->email,
+    ]]);
+
+    $check_account = Employee::where('email', $user->email)->first();
+
+    if($check_account) {
+        return redirect()->route('welcome');
+    } else {
+        return redirect()->route('register');
+    }
 });
+
+// ------------------------------ end ------------------------------------------
+
+// --------------------------đăng kí bằng git hub -----------------------------
+Route::get('/auth/github', function () {
+    return Socialite::driver('github')->redirect();
+})->name('github-auth');
+ 
+Route::get('/auth/github/callback', function () {
+    $user = Socialite::driver('github')->user();
+
+    session(['register_data' => [
+        'name' => $user->name,
+        'email' => $user->email,
+    ]]);
+
+    $check_account = Employee::where('email', $user->email)->first();
+
+    if($check_account) {
+        return redirect()->route('welcome');
+    } else {
+        return redirect()->route('register');
+    }
+});
+
+// -------------------------- end -----------------------------------------------

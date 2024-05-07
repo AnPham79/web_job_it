@@ -15,4 +15,31 @@
 
 - composer require bensampo/laravel-enum ( pagkage laravel enum )
 
+- đăng nhập bằng socialite
+- google.
+- github.
+- facebook.
+
+- composer require laravel/socialite dowload pagkage laravel
+
+ @đăng nhập bằng google
+- viết route.
+
+- vào config->service viết service.
+
+- vào google -> search google developer console để thiết lập API.
+
+- chọn Apis and services -> credentials -> create credentials -> oAuth client -> web application -> đặt tên xuống dưới Authorized redirect URLs -> http://127.0.0.1:8000/Auth/google/callback;
+
+- coppy clinet ID bỏ vào client id service.
+
+- coppy clinet ID bỏ vào client secret service.
+
+@đăg nhập bằng github
+
+- viết route.
+
+- vào config->service viết service.
+
+- vào git -> Developer setting -> chọn đăng kí OAuth.
 
