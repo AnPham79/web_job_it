@@ -10,7 +10,7 @@
 
     <title>
 
-        Material Dashboard 2 by Creative Tim
+        {{ $title ?? '' }} - {{  config('app.name') }}
 
     </title>
 
@@ -63,7 +63,7 @@
     <!--   Core JS Files   -->
     <script src="{{ asset('js/core/popper.min.js') }}"></script>
     <script src="{{ asset('js/core/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/perfect-scrollbar.min.js') }}"></script>
+    <!-- <script src="{{ asset('js/plugins/perfect-scrollbar.min.js') }}"></script> -->
     <script src="{{ asset('js/plugins/smooth-scrollbar.min.js') }}"></script>
 
     <script>
@@ -82,6 +82,8 @@
 
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('js/material-dashboard.min.js?v=3.1.0') }}"></script>
+
+    @stack('js')
 </body>
 
 </html>

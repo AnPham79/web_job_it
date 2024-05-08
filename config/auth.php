@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        // 'admin' => [
+        //     'driver' => 'session',
+        //     'provider' => 'users',
+        // ],
     ],
 
     /*
@@ -64,6 +69,21 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+
+        // 'admin' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Models\Employee::class,
+        // ],
+
+        // 'hr' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Models\Employee::class,
+        // ],
+
+        // 'applicant' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Models\Employee::class,
+        // ],
 
         // 'users' => [
         //     'driver' => 'database',

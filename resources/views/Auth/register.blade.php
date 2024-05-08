@@ -65,6 +65,9 @@
                                             <div class="mb-3">
                                                 <input type="email" class="form-control" name="email" value="{{ session('register_data')['email'] }}" placeholder="Email">
                                             </div>
+                                            <div class="mb-3">
+                                                <input type="hidden" class="form-control" name="avatar" value="{{ session('register_data')['avatar'] }}" placeholder="avatar">
+                                            </div>
                                         @else
                                             <div class="input-group input-group-outline mb-3">
                                                 <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Name">

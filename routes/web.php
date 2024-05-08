@@ -39,12 +39,26 @@ Route::get('/Auth/google/callback', function () {
     session(['register_data' => [
         'name' => $user->name,
         'email' => $user->email,
+        'avatar' => $user->avatar ?? null,
     ]]);
 
     $check_account = Employee::where('email', $user->email)->first();
 
     if($check_account) {
-        return redirect()->route('welcome');
+
+        $role = strtolower($check_account->role);
+
+        session()->put('role', $role);
+
+        if($role === 'admin') {
+            session()->put('role', $role);
+            return redirect()->route('admin.welcome');
+        } else if($role === 'hr') {
+            return redirect()->route('hr.welcome');
+        } else {
+            return redirect()->route('welcome');
+        }
+        
     } else {
         return redirect()->route('register');
     }
@@ -63,12 +77,25 @@ Route::get('/auth/github/callback', function () {
     session(['register_data' => [
         'name' => $user->name,
         'email' => $user->email,
+        'avatar' => $user->avatar ?? null,
     ]]);
 
     $check_account = Employee::where('email', $user->email)->first();
 
     if($check_account) {
-        return redirect()->route('welcome');
+
+        $role = strtolower($check_account->role);
+
+        session()->put('role', $role);
+
+        if($role === 'admin') {
+            return redirect()->route('admin.welcome');
+        } else if($role === 'hr') {
+            return redirect()->route('hr.welcome');
+        } else {
+            return redirect()->route('welcome');
+        }
+        
     } else {
         return redirect()->route('register');
     }

@@ -24,7 +24,7 @@ class AuthController extends Controller
     {
         $registerData = session('register_data');
         if ($registerData) {
-            return view('auth.register', ['name' => $registerData['name'], 'email' => $registerData['email']]);
+            return view('auth.register', ['name' => $registerData['name'], 'email' => $registerData['email'], 'avatar' => $registerData['avatar']]);
         }
 
         return view('Auth.register');
