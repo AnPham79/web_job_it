@@ -24,13 +24,13 @@
                                     <a href="" class="btn btn-success float-end mx-1">Add
                                         new
                                     </a>
-                                    <form action="" method="POST">
+                                    <form action="{{ route('employee.export-csv') }}" method="POST">
                                         @csrf
                                         <button class="btn btn-success float-end mx-1">
                                             Export CSV
                                         </button>
                                     </form>
-                                    <form action="" method="POST">
+                                    <form action="{{ route('employee.export-excel') }}" method="POST">
                                         @csrf
                                         <button class="btn btn-success float-end mx-1">
                                             Export Excel
@@ -43,23 +43,27 @@
                     <form action="" class="form-horizontal my-4" id="form-filter">
                         <div class="row">
                             <div class="col-md-3">
-                                <select class="form-select px-4 rounded-pill bg-light border-0 shadow-sm select-filter" aria-label="Default select example" name="city" id="city">
-                                    <option value="All" selected>All Cities</option>
-                                    <!-- Các tùy chọn cho city -->
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <select class="form-select px-4 rounded-pill bg-light border-0 shadow-sm select-filter" aria-label="Default select example" name="company" id="company">
-                                    <option value="All" selected>All Companies</option>
-                                    <!-- Các tùy chọn cho company -->
-                                </select>
-                            </div>
-                            <div class="col-md-3">
                                 <select class="form-select px-4 rounded-pill bg-light border-0 shadow-sm select-filter" aria-label="Default select example" name="role" id="role">
                                     <option value="All" selected>All Roles</option>
                                     <option value="Applicant">Applicant</option>
                                     <option value="HR">HR</option>
                                     <option value="Admin">Admin</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select px-4 rounded-pill bg-light border-0 shadow-sm select-filter" aria-label="Default select example" name="city" id="city">
+                                    <option value="">All Cities</option>
+                                    @foreach($cities as $city)
+                                        <option value="{{ $city }}">{{ $city }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select px-4 rounded-pill bg-light border-0 shadow-sm select-filter" aria-label="Default select example" name="company" id="company">
+                                    <option value="">All Companies</option>
+                                    @foreach($companies as $company)
+                                        <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -105,11 +109,11 @@
                                         <td>{{ $item->city }}</td>
                                         <!-- sử lí trường hợp không có company -->
                                         <td>{{  optional($item->company)->name }}</td>
-                                        <td> 
-                                            <form action="{{ route('admin.employees.destroy', $item) }}" method="POST">
+                                        <td>
+                                            <form action="{{ route('employee.destroy-employee', ['id'=> $item->id]) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button class="border-0 bg-light" type="submit"><a href=""><i class="fa-solid fa-trash text-danger mx-1"></i></a></button>
+                                                <button class="border-0 bg-light" type="submit"><i class="fa-solid fa-trash text-danger mx-1"></i></button>
                                             </form>
                                         </td>
                                     </tr>
@@ -126,16 +130,14 @@
 @push('js')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Lấy thẻ select theo id
-            const selectFilter = document.getElementById('role');
+            const selectFilters = document.querySelectorAll('.select-filter');
 
-            // Thêm sự kiện onchange cho select box
-            selectFilter.addEventListener('change', function (event) {
-                // Ngăn chặn hành vi mặc định của sự kiện
-                event.preventDefault();
-                
-                // Gửi biểu mẫu khi người dùng thay đổi lựa chọn
-                document.getElementById('form-filter').submit();
+            selectFilters.forEach(function(selectFilter) {
+                selectFilter.addEventListener('change', function (event) {
+                    event.preventDefault();
+
+                    document.getElementById('form-filter').submit();
+                });
             });
         });
     </script>

@@ -10,7 +10,7 @@
 
     <title>
 
-        {{ $title ?? '' }} - {{  config('app.name') }}
+        {{ $title ?? 'Manager' }} - {{  config('app.name') }}
 
     </title>
 

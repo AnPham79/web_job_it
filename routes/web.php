@@ -4,6 +4,8 @@ use App\Models\Employee;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\PostsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,3 +104,40 @@ Route::get('/auth/github/callback', function () {
 });
 
 // -------------------------- end -----------------------------------------------
+
+
+// -------------------------- employee manager--------------------------------------------
+
+Route::group(['prefix' => 'employee', 'as' => 'employee.'] , function() {
+
+    Route::get('/', [UserController::class,'index'])->name('employee-index-manager');
+
+    Route::delete('/delete-employee/{id}', [UserController::class, 'destroy'])->name('destroy-employee');
+
+    Route::post('/export-excel', [UserController::class, 'exportIntoExcel'])->name('export-excel');
+
+    Route::post('/export-csv', [UserController::class, 'exportIntoCSV'])->name('export-csv');
+
+});
+// ------------------------ end emplyee manager ------------------------------------------
+
+
+// -------------------------- Posts manager--------------------------------------------
+
+Route::group(['prefix' => 'posts', 'as' => 'posts.'] , function() {
+
+    Route::get('/', [PostsController::class,'index'])->name('posts-index-manager');
+
+    Route::get('/posts-create', [PostsController::class, 'create'])->name('posts-create');
+
+    Route::post('/export-excel', [PostsController::class, 'exportIntoExcel'])->name('export-excel');
+
+    Route::post('/export-csv', [PostsController::class, 'exportIntoCSV'])->name('export-csv');
+
+    Route::post('/form-import-excel', [PostsController::class, 'formImportIntoExcel'])->name('form-import-excel');
+
+    Route::post('/import-excel', [PostsController::class, 'importIntoExcel'])->name('import-excel');
+
+});
+
+// ------------------------ end posts manager ------------------------------------------
